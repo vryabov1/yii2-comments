@@ -10,13 +10,13 @@ class m160405_061524_init extends Migration
     public function up()
     {
         $this->createTable(self::TABLE, [
-            'id' => $this->integer()->unsigned() . ' AUTO_INCREMENT PRIMARY KEY',
-            'item_type' => 'TINYINT(1) UNSIGNED NOT NULL',
+            'id' => $this->primaryKey()->unsigned() . ' AUTO_INCREMENT PRIMARY KEY',
+            'item_type' => $this->smallInteger(1)->unsigned()->notNull(),
             'item_id' => $this->integer()->notNull()->unsigned(),
             'user_id' => $this->integer()->notNull()->unsigned(),
             'parent_id' => $this->integer()->unsigned(),
             'text' => $this->text()->notNull(),
-            'status' => 'TINYINT(1) UNSIGNED NOT NULL',
+            'status' => $this->smallInteger(1)->unsigned()->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()
         ]);
