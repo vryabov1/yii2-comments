@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "qvalent\\comments": ""
+            "qvalent\\comments\\": ""
         }
     }
 }
