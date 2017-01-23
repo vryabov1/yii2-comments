@@ -1,7 +1,10 @@
 <?php
 use qvalent\comments\models\Comment;
+use kartik\icons\Icon;
 
 /** @var $comments Comment[]*/
+/** @var $userShowCallback Closure */
+
 ?>
 
 <style>
@@ -111,51 +114,6 @@ use qvalent\comments\models\Comment;
     }
 </style>
 
-<?php
-
-use kartik\icons\Icon;
-
-//$comments = [
-//    [
-//        'rating'=>113,
-//        'comment_text' => "You can't catch parse errors when enabling error output at runtime, because it parses the file before actually executing anything (and since it encounters an error during this, it won't execute anything). You'll need to change the actual server configuration so that display_errors is on and the approriate error_reporting level is used. If you don't have access to php.ini, you may be able to use .htaccess or similar, depending on the server.",
-//        'username' => 'snusnu',
-//        'date' => '2015-10-21 10:23',
-//        'user_rating' => 2150,
-//        'replies' => [
-//            [
-//                'rating'=>4,
-//                'comment_text' => "error output at runtime",
-//                'username' => 'alibaba',
-//                'date' => '2015-10-21 12:23',
-//                'user_rating' => 87
-//            ],
-//            [
-//                'rating'=>0,
-//                'comment_text' => "Thank you Guys!",
-//                'username' => 'checkmate',
-//                'date' => '2015-10-21 12:33',
-//                'user_rating' => 7
-//            ],
-//            [
-//                'rating'=>2,
-//                'comment_text' => "When using PHP as an Apache module, we can a change the configuration settings using directives in Apache configuration files (e.g. httpd.conf) and .htaccess files. You will need “AllowOverride Options” or “AllowOverride All” privileges to do so. Check this",
-//                'username' => 'useyourbrain',
-//                'date' => '2015-11-23 02:12',
-//                'user_rating' => 2
-//            ]
-//        ]
-//    ],
-//    [
-//        'rating'=>20,
-//        'comment_text' => "I'm looking for that. Thanks!",
-//        'username' => 'admin',
-//        'date' => '2015-10-11 10:30',
-//        'user_rating' => 90
-//    ]
-//];
-
-?>
 
 <div class="qv-comments">
     <?php foreach ($comments as $comment) { ?>
@@ -181,7 +139,7 @@ use kartik\icons\Icon;
                             <?= date('d.m.Y H:i', $comment->created_at); ?>
                         </div>
                         <div class="qv-root-comment-user">
-                            <?= $comment->user->username ?> [<?= rand(0, 100); ?>]
+                            <?= call_user_func($userShowCallback, $comment->user); ?> [<?= rand(0, 100); ?>]
                         </div>
                     </div>
                 </div>
@@ -195,7 +153,7 @@ use kartik\icons\Icon;
                                 <a class="qv-reply-rate-btn qv-rate-up" href="javascript:void(0)">+</a>
                             </div>
                             <div class="qv-reply-text">
-                                <?= $reply->text ?><span class="qv-reply-info"> – <?= $reply->user->username ?>
+                                <?= $reply->text ?><span class="qv-reply-info"> – <?= call_user_func($userShowCallback, $reply->user); ?>
                                     [<?= rand(0, 100); ?>], <?= date('d.m.Y H:i', $reply->created_at); ?></span>
                             </div>
                         </div>

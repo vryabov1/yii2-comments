@@ -17,5 +17,8 @@
         "psr-4": {
             "qvalent\\comments\\": ""
         }
+    },
+    "extra": {
+        "bootstrap": "qvalent\\comments\\Bootstrap"
     }
 }
