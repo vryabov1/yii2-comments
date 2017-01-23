@@ -14,8 +14,11 @@ class Bootstrap implements BootstrapInterface
     {
         /** @var Module $module */
         $module = $app->getModule('comments');
-        $module->userShowCallback = function(IdentityInterface $userModel) {
-            return 'User#' . $userModel->getId();
-        };
+
+        if (!isset($module->userShowCallback)) {
+            $module->userShowCallback = function (IdentityInterface $userModel) {
+                return 'User#' . $userModel->getId();
+            };
+        }
     }
 }
