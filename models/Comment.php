@@ -1,8 +1,11 @@
 <?php
 
-namespace common\modules\comments\models;
+namespace qvalent\comments\models;
 
+use qvalent\comments\components\UserInterface;
+use qvalent\comments\models\queries\CommentsQuery;
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "{{%comments}}".
@@ -18,6 +21,7 @@ use Yii;
  * @property integer $updated_at
  *
  * @property Comment $parent
+ * @property IdentityInterface $user
  * @property Comment[] $childs
  */
 class Comment extends \yii\db\ActiveRecord
@@ -74,5 +78,20 @@ class Comment extends \yii\db\ActiveRecord
     public function getChilds()
     {
         return $this->hasMany(Comment::className(), ['parent_id' => 'id']);
+    }
+
+    /**
+     * @return CommentsQuery|object
+     */
+    public static function find()
+    {
+        return Yii::$container->has(CommentsQuery::className())
+            ? Yii::createObject(CommentsQuery::className())
+            : new CommentsQuery(get_called_class());
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
     }
 }

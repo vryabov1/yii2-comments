@@ -1,3 +1,9 @@
+<?php
+use qvalent\comments\models\Comment;
+
+/** @var $comments Comment[]*/
+?>
+
 <style>
     .qv-comments {
         display: table;
@@ -109,45 +115,45 @@
 
 use kartik\icons\Icon;
 
-$comments = [
-    [
-        'rating'=>113,
-        'comment_text' => "You can't catch parse errors when enabling error output at runtime, because it parses the file before actually executing anything (and since it encounters an error during this, it won't execute anything). You'll need to change the actual server configuration so that display_errors is on and the approriate error_reporting level is used. If you don't have access to php.ini, you may be able to use .htaccess or similar, depending on the server.",
-        'username' => 'snusnu',
-        'date' => '2015-10-21 10:23',
-        'user_rating' => 2150,
-        'replies' => [
-            [
-                'rating'=>4,
-                'comment_text' => "error output at runtime",
-                'username' => 'alibaba',
-                'date' => '2015-10-21 12:23',
-                'user_rating' => 87
-            ],
-            [
-                'rating'=>0,
-                'comment_text' => "Thank you Guys!",
-                'username' => 'checkmate',
-                'date' => '2015-10-21 12:33',
-                'user_rating' => 7
-            ],
-            [
-                'rating'=>2,
-                'comment_text' => "When using PHP as an Apache module, we can a change the configuration settings using directives in Apache configuration files (e.g. httpd.conf) and .htaccess files. You will need “AllowOverride Options” or “AllowOverride All” privileges to do so. Check this",
-                'username' => 'useyourbrain',
-                'date' => '2015-11-23 02:12',
-                'user_rating' => 2
-            ]
-        ]
-    ],
-    [
-        'rating'=>20,
-        'comment_text' => "I'm looking for that. Thanks!",
-        'username' => 'admin',
-        'date' => '2015-10-11 10:30',
-        'user_rating' => 90
-    ]
-];
+//$comments = [
+//    [
+//        'rating'=>113,
+//        'comment_text' => "You can't catch parse errors when enabling error output at runtime, because it parses the file before actually executing anything (and since it encounters an error during this, it won't execute anything). You'll need to change the actual server configuration so that display_errors is on and the approriate error_reporting level is used. If you don't have access to php.ini, you may be able to use .htaccess or similar, depending on the server.",
+//        'username' => 'snusnu',
+//        'date' => '2015-10-21 10:23',
+//        'user_rating' => 2150,
+//        'replies' => [
+//            [
+//                'rating'=>4,
+//                'comment_text' => "error output at runtime",
+//                'username' => 'alibaba',
+//                'date' => '2015-10-21 12:23',
+//                'user_rating' => 87
+//            ],
+//            [
+//                'rating'=>0,
+//                'comment_text' => "Thank you Guys!",
+//                'username' => 'checkmate',
+//                'date' => '2015-10-21 12:33',
+//                'user_rating' => 7
+//            ],
+//            [
+//                'rating'=>2,
+//                'comment_text' => "When using PHP as an Apache module, we can a change the configuration settings using directives in Apache configuration files (e.g. httpd.conf) and .htaccess files. You will need “AllowOverride Options” or “AllowOverride All” privileges to do so. Check this",
+//                'username' => 'useyourbrain',
+//                'date' => '2015-11-23 02:12',
+//                'user_rating' => 2
+//            ]
+//        ]
+//    ],
+//    [
+//        'rating'=>20,
+//        'comment_text' => "I'm looking for that. Thanks!",
+//        'username' => 'admin',
+//        'date' => '2015-10-11 10:30',
+//        'user_rating' => 90
+//    ]
+//];
 
 ?>
 
@@ -159,7 +165,7 @@ $comments = [
                     <?= Icon::show('triangle-top', [], Icon::BSG); ?>
                 </a>
                 <div class="qv-root-current-rating">
-                    <?= $comment['rating'] ?>
+                    <?= rand(0, 100); ?>
                 </div>
                 <a class="qv-root-rate-btn qv-rate-down" href="javascript:void(0)">
                     <?= Icon::show('triangle-bottom', [], Icon::BSG); ?>
@@ -168,33 +174,34 @@ $comments = [
             <div class="qv-root-comment-block-right">
                 <div class="qv-root-comment">
                     <div class="qv-root-comment-text">
-                        <?= $comment['comment_text'] ?>
+                        <?= $comment->text ?>
                     </div>
                     <div class="qv-root-comment-info">
                         <div class="qv-root-comment-date">
-                            <?= date('d.m.Y H:i', strtotime($comment['date'])); ?>
+                            <?= date('d.m.Y H:i', $comment->created_at); ?>
                         </div>
                         <div class="qv-root-comment-user">
-                            <?= $comment['username'] ?> [<?= $comment['user_rating'] ?>]
+                            <?= $comment->user->username ?> [<?= rand(0, 100); ?>]
                         </div>
                     </div>
                 </div>
-                <?php if (empty($comment['replies'])) continue; ?>
+                <?php if (!empty($comment->childs)) { ?>
                 <div class="qv-comment-replies">
-                    <?php foreach ($comment['replies'] as $reply) { ?>
+                    <?php foreach ($comment->childs as $reply) { ?>
                         <div class="qv-comment-reply">
-                            <div class="qv-reply-rating"><?= $reply['rating'] ?: ''; ?></div>
+                            <div class="qv-reply-rating"><?= rand(0, 100); ?></div>
                             <div class="qv-reply-rate">
                                 <a class="qv-reply-rate-btn qv-rate-down" href="javascript:void(0)">-</a>
                                 <a class="qv-reply-rate-btn qv-rate-up" href="javascript:void(0)">+</a>
                             </div>
                             <div class="qv-reply-text">
-                                <?= $reply['comment_text'] ?><span class="qv-reply-info"> – <?= $reply['username'] ?>
-                                    [<?= $reply['user_rating'] ?>], <?= date('d.m.Y H:i', strtotime($reply['date'])); ?></span>
+                                <?= $reply->text ?><span class="qv-reply-info"> – <?= $reply->user->username ?>
+                                    [<?= rand(0, 100); ?>], <?= date('d.m.Y H:i', $reply->created_at); ?></span>
                             </div>
                         </div>
                     <?php } ?>
                 </div>
+                <?php } ?>
             </div>
         </div>
     <?php } ?>
