@@ -2,7 +2,6 @@
 
 namespace qvalent\comments\models;
 
-use qvalent\comments\components\UserInterface;
 use qvalent\comments\models\queries\CommentsQuery;
 use Yii;
 use yii\web\IdentityInterface;
@@ -26,6 +25,7 @@ use yii\web\IdentityInterface;
  */
 class Comment extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

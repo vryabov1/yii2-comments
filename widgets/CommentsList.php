@@ -11,6 +11,9 @@ use yii\base\Widget;
 class CommentsList extends Widget
 {
 
+    public $itemType;
+    public $itemId;
+
     /**
      * User row callback
      * By default taken from Module settings
@@ -24,15 +27,18 @@ class CommentsList extends Widget
         /** @var Module $commentsModule */
         $commentsModule = Yii::$app->getModule('comments');
         $this->userShowCallback = $commentsModule->userShowCallback;
-
     }
 
 
     public function run()
     {
-        $comments = Comment::find()->joinWith('user')->itemType(1)->parentsOnly()->all();
-
         $this->ensureValidParams();
+
+        $comments = Comment::find()->joinWith('user')
+            ->itemType($this->itemType)
+            ->itemId($this->itemId)
+            ->parentsOnly()
+            ->all();
 
         return $this->render('list', [
             'comments' => $comments,
@@ -42,9 +48,15 @@ class CommentsList extends Widget
 
     private function ensureValidParams()
     {
-        if (is_callable($this->userShowCallback)) return true;
-
-        throw new InvalidParamException('userShowCallback should be callable');
+        if (!is_callable($this->userShowCallback)) {
+            throw new InvalidParamException('userShowCallback should be callable');
+        }
+        if (!isset($this->itemType)) {
+            throw new InvalidParamException('itemType should be set');
+        }
+        if (!isset($this->itemId)) {
+            throw new InvalidParamException('itemId should be set');
+        }
     }
 }
 
