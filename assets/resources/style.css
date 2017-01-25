@@ -47,6 +47,7 @@
     border-collapse: collapse;
     border-top: 1px solid #f0f0f0;
     font-size: 13px;
+    width: 100%;
 }
 
 .qv-comment-reply {
@@ -101,4 +102,22 @@
 
 .qv-reply-rate-btn:hover, .qv-reply-rate-btn:focus, .qv-reply-rate-btn:active {
     text-decoration: none;
+}
+
+.qv-comment-link-block {
+    margin-top: 5px;
+}
+
+.qv-comment-link {
+    color: #b3b3b3;
+}
+
+.qv-comment-link:hover, .qv-comment-link:focus {
+    text-decoration: none;
+}
+
+.qv-comment-add-form {
+    border-collapse: collapse;
+    max-width: 600px;
+    margin-top: 20px;
 }
