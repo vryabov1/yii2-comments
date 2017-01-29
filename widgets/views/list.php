@@ -2,9 +2,15 @@
 use qvalent\comments\assets\CommentsAsset;
 use qvalent\comments\models\Comment;
 use kartik\icons\Icon;
+use qvalent\comments\widgets\CommentsForm;
+use yii\bootstrap\Html;
+use yii\widgets\ActiveForm;
 
-/** @var $comments Comment[]*/
+/** @var $comments Comment[] */
 /** @var $userShowCallback Closure */
+/** @var $newComment Comment */
+/** @var $itemId int */
+/** @var $itemType int */
 CommentsAsset::register($this);
 ?>
 
@@ -53,17 +59,13 @@ CommentsAsset::register($this);
                             </div>
                         <?php } ?>
                     <?php } ?>
-                    <p class="qv-comment-link-block"><a href="#" class="qv-comment-link">ответить</a></p>
+                    <p class="qv-comment-link-block"><a href="javascript:void(0)" class="qv-comment-reply-link" data-parent-id="<?= $comment->id ?>">ответить</a></p>
                 </div>
+
             </div>
         </div>
     <?php } ?>
 </div>
 
-<form action="" class="qv-comment-add-form">
-    <div class="form-group">
-        <label for="exampleInputEmail1">Написать комментарий</label>
-        <textarea name="aaa" id="exampleInputEmail1" cols="30" rows="10" class="form-control"></textarea>
-    </div>
-</form>
-
+<?= CommentsForm::widget(['isRoot' => true, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
+<?= CommentsForm::widget(['isRoot' => false, 'itemType' => $itemType, 'itemId' => $itemId]); ?>

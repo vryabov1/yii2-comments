@@ -2,6 +2,7 @@
     display: table;
     border-collapse: collapse;
     max-width: 600px;
+    margin-bottom: 20px;
 }
 
 .qv-root-comment-block {
@@ -108,16 +109,32 @@
     margin-top: 5px;
 }
 
-.qv-comment-link {
+.qv-comment-reply-link {
     color: #b3b3b3;
 }
 
-.qv-comment-link:hover, .qv-comment-link:focus {
+.qv-comment-reply-link:hover, .qv-comment-reply-link:focus {
     text-decoration: none;
 }
 
 .qv-comment-add-form {
     border-collapse: collapse;
     max-width: 600px;
-    margin-top: 20px;
+}
+
+.qv-comment-add-form textarea {
+    width: 100%;
+    resize: vertical;
+    outline: none;
+}
+
+.qv-comment-add-form label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.qv-comment-submit-block {
+    text-align: right;
 }

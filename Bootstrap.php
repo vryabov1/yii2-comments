@@ -4,6 +4,7 @@ namespace qvalent\comments;
 
 use yii\base\BootstrapInterface;
 use yii\web\IdentityInterface;
+use yii\console\Application as ConsoleApplication;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -19,6 +20,16 @@ class Bootstrap implements BootstrapInterface
             $module->userShowCallback = function (IdentityInterface $userModel) {
                 return 'User#' . $userModel->getId();
             };
+        }
+
+        if (!$app instanceof ConsoleApplication) {
+            $app->getUrlManager()->addRules([
+                [
+                    'class' => 'yii\web\UrlRule',
+                    'pattern' => $module->id  . '/<controller>/<action>',
+                    'route' => $module->id . '/<controller>/<action>'
+                ]
+            ], false);
         }
     }
 }

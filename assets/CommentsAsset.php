@@ -10,4 +10,12 @@ class CommentsAsset extends AssetBundle
     public $css = [
         'style.css'
     ];
+    public $js = [
+        'comments.js'
+    ];
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
+        'backend\assets\FontAwesomeAsset'
+    ];
 }

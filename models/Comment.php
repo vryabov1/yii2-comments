@@ -4,6 +4,7 @@ namespace qvalent\comments\models;
 
 use qvalent\comments\models\queries\CommentsQuery;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
 /**
@@ -26,6 +27,16 @@ use yii\web\IdentityInterface;
 class Comment extends \yii\db\ActiveRecord
 {
 
+    const STATUS_ACTIVE = 1;
+
+    /**
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [TimestampBehavior::className()];
+    }
+
     /**
      * @inheritdoc
      */
@@ -40,8 +51,8 @@ class Comment extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['item_type', 'item_id', 'user_id', 'text', 'status', 'created_at'], 'required'],
-            [['item_type', 'item_id', 'user_id', 'parent_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['item_type', 'item_id', 'user_id', 'text', 'status'], 'required'],
+            [['item_type', 'item_id', 'user_id', 'parent_id', 'status'], 'integer'],
             [['text'], 'string']
         ];
     }

@@ -34,15 +34,18 @@ class CommentsList extends Widget
     {
         $this->ensureValidParams();
 
-        $comments = Comment::find()->joinWith('user')
+        $comments = Comment::find()
             ->itemType($this->itemType)
             ->itemId($this->itemId)
             ->parentsOnly()
+            ->joinWith('user')
             ->all();
 
         return $this->render('list', [
+            'itemId' => $this->itemId,
+            'itemType' => $this->itemType,
             'comments' => $comments,
-            'userShowCallback' => $this->userShowCallback
+            'userShowCallback' => $this->userShowCallback,
         ]);
     }
 

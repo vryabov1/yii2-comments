@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "*"
+        "yiisoft/yii2": "*",
+        "hakimel/Ladda": "dev-master"
     },
     "autoload": {
         "psr-4": {
