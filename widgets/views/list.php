@@ -11,6 +11,8 @@ use yii\widgets\ActiveForm;
 /** @var $newComment Comment */
 /** @var $itemId int */
 /** @var $itemType int */
+/** @var $canCreate bool */
+
 CommentsAsset::register($this);
 ?>
 
@@ -59,7 +61,11 @@ CommentsAsset::register($this);
                             </div>
                         <?php } ?>
                     <?php } ?>
-                    <p class="qv-comment-link-block"><a href="javascript:void(0)" class="qv-comment-reply-link" data-parent-id="<?= $comment->id ?>">ответить</a></p>
+                    <?php if ($canCreate) { ?>
+                        <p class="qv-comment-link-block">
+                            <a href="javascript:void(0)" class="qv-comment-reply-link" data-parent-id="<?= $comment->id ?>">ответить</a>
+                        </p>
+                    <?php } ?>
                 </div>
 
             </div>
@@ -67,5 +73,7 @@ CommentsAsset::register($this);
     <?php } ?>
 </div>
 
-<?= CommentsForm::widget(['isRoot' => true, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
-<?= CommentsForm::widget(['isRoot' => false, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
+<?php if ($canCreate) { ?>
+    <?= CommentsForm::widget(['isRoot' => true, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
+    <?= CommentsForm::widget(['isRoot' => false, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
+<?php } ?>

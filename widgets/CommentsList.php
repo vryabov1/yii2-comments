@@ -46,6 +46,7 @@ class CommentsList extends Widget
             'itemType' => $this->itemType,
             'comments' => $comments,
             'userShowCallback' => $this->userShowCallback,
+            'canCreate' => Yii::$app->user->can(Module::PERMISSION_CREATE)
         ]);
     }
 

@@ -11,28 +11,13 @@
         }
     ],
     "require": {
-        "yiisoft/yii2": "*",
-        "hakimel/Ladda": "dev-master"
+        "yiisoft/yii2": "*"
     },
     "autoload": {
         "psr-4": {
             "qvalent\\comments\\": ""
         }
     },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "hakimel/Ladda",
-                "version": "dev-master",
-                "source": {
-                    "url": "https://github.com/hakimel/Ladda",
-                    "type": "git",
-                    "reference": "origin/master"
-                }
-            }
-        }
-    ],
     "extra": {
         "bootstrap": "qvalent\\comments\\Bootstrap"
     }
