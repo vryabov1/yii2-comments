@@ -19,15 +19,19 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property bool $isActive
+ * @property bool $isDisabled
  *
  * @property Comment $parent
  * @property IdentityInterface $user
  * @property Comment[] $childs
+ * @property Comment[] $activeChilds
  */
 class Comment extends \yii\db\ActiveRecord
 {
 
     const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
 
     /**
      * @return array
@@ -92,6 +96,14 @@ class Comment extends \yii\db\ActiveRecord
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getActiveChilds()
+    {
+        return $this->getChilds()->andWhere(['status' => Comment::STATUS_ACTIVE]);
+    }
+
+    /**
      * @return CommentsQuery|object
      */
     public static function find()
@@ -104,5 +116,15 @@ class Comment extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(Yii::$app->user->identityClass, ['id' => 'user_id']);
+    }
+
+    public function getIsActive()
+    {
+        return $this->status == static::STATUS_ACTIVE;
+    }
+
+    public function getIsDisabled()
+    {
+        return $this->status == static::STATUS_INACTIVE;
     }
 }

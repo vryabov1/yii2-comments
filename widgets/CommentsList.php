@@ -38,6 +38,7 @@ class CommentsList extends Widget
             ->itemType($this->itemType)
             ->itemId($this->itemId)
             ->parentsOnly()
+            ->activeOnly()
             ->joinWith('user')
             ->all();
 

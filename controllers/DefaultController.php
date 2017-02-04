@@ -4,14 +4,14 @@ namespace qvalent\comments\controllers;
 
 
 use qvalent\comments\models\CommentCompose;
+use qvalent\comments\Module;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
-class DefaultController extends Controller
+class DefaultController extends BaseController
 {
 
     public function behaviors()
@@ -23,7 +23,7 @@ class DefaultController extends Controller
                     [
                         'actions' => ['send'],
                         'allow' => true,
-                        'roles' => ['CreateComment']
+                        'roles' => [Module::PERMISSION_CREATE]
                     ],
                 ],
             ],
@@ -57,7 +57,6 @@ class DefaultController extends Controller
         return $this->redirect($this->getReturnUrl());
     }
 
-
     /**
      * @return bool
      */
@@ -65,13 +64,5 @@ class DefaultController extends Controller
     {
         return Yii::$app->request->isAjax
             && in_array(Yii::$app->request->post('ajax'), ['qv-add-comment-form', 'qv-add-reply-form'], true);
-    }
-
-    /**
-     * @return string
-     */
-    private function getReturnUrl()
-    {
-        return Yii::$app->request->post('returnUrl');
     }
 }

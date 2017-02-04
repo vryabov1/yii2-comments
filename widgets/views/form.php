@@ -1,5 +1,6 @@
 <?php
 use kartik\icons\Icon;
+use qvalent\comments\controllers\BaseController;
 use qvalent\comments\models\CommentCompose;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -30,5 +31,5 @@ $module = Yii::$app->getModule('comments');
     ['class' => 'qv-comment-submit-btn btn btn-xs btn-info'])
 ?>
 <?= Html::endTag('div') ?>
-<?= Html::hiddenInput('returnUrl', Yii::$app->request->getUrl()) ?>
+<?= Html::hiddenInput(BaseController::RETURN_PARAM, Yii::$app->request->getUrl()) ?>
 <?php ActiveForm::end(); ?>
