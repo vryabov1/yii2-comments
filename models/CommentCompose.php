@@ -40,6 +40,7 @@ class CommentCompose extends Model
     {
         return [
             [['text'], 'safe'],
+            ['text', 'filter', 'filter' => 'yii\helpers\HtmlPurifier::process'],
             [['item_type', 'item_id', 'text'], 'required'],
             [['item_type', 'item_id', 'parent_id'], 'integer'],
             [['text'], 'string'],
@@ -48,12 +49,12 @@ class CommentCompose extends Model
 
     public function save()
     {
+        if (!$this->validate()) return false;
         /** @var Comment $model */
         $model = Yii::createObject(Comment::className());
         $model->setAttributes($this->getAttributes());
         $model->status = Comment::STATUS_ACTIVE;
         $model->user_id = Yii::$app->user->id;
-        $model->validate();
         return $model->save();
     }
 }

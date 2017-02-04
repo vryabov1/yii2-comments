@@ -33,7 +33,7 @@ CommentsAsset::register($this);
             <div class="qv-root-comment-block-right">
                 <div class="qv-root-comment">
                     <div class="qv-root-comment-text">
-                        <?= $comment->text ?>
+                        <?= Yii::$app->formatter->format($comment->text, ['ntext', 'html']) ?>
                     </div>
                     <div class="qv-root-comment-info">
                         <div class="qv-root-comment-date">
@@ -54,7 +54,7 @@ CommentsAsset::register($this);
                                     <a class="qv-reply-rate-btn qv-rate-up" href="javascript:void(0)">+</a>
                                 </div>
                                 <div class="qv-reply-text">
-                                    <?= $reply->text ?><span
+                                    <?= Yii::$app->formatter->format($reply->text, ['ntext', 'html']) ?><span
                                             class="qv-reply-info"> – <?= call_user_func($userShowCallback, $reply->user); ?>
                                         [<?= rand(0, 100); ?>], <?= date('d.m.Y H:i', $reply->created_at); ?></span>
                                 </div>
