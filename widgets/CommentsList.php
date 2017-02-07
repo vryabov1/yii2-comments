@@ -3,6 +3,7 @@
 namespace qvalent\comments\widgets;
 
 use qvalent\comments\models\Comment;
+use qvalent\comments\models\queries\CommentsQuery;
 use qvalent\comments\Module;
 use Yii;
 use yii\base\InvalidParamException;
@@ -35,11 +36,19 @@ class CommentsList extends Widget
         $this->ensureValidParams();
 
         $comments = Comment::find()
+            ->setAlias('parent')
             ->itemType($this->itemType)
             ->itemId($this->itemId)
             ->parentsOnly()
             ->activeOnly()
-            ->joinWith('user')
+            ->joinWith([
+                'user u',
+                'childs ch' => function ($query) {
+                    /** @var CommentsQuery $query */
+                    return $query->andOnCondition(['ch.status' => Comment::STATUS_ACTIVE]);
+                },
+                'childs.user'
+            ])
             ->all();
 
         return $this->render('list', [

@@ -25,7 +25,6 @@ use yii\web\IdentityInterface;
  * @property Comment $parent
  * @property IdentityInterface $user
  * @property Comment[] $childs
- * @property Comment[] $activeChilds
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -93,14 +92,6 @@ class Comment extends \yii\db\ActiveRecord
     public function getChilds()
     {
         return $this->hasMany(Comment::className(), ['parent_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getActiveChilds()
-    {
-        return $this->getChilds()->andWhere(['status' => Comment::STATUS_ACTIVE]);
     }
 
     /**

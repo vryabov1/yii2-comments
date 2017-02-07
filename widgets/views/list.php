@@ -45,8 +45,8 @@ CommentsAsset::register($this);
                     </div>
                 </div>
                 <div class="qv-comment-replies">
-                    <?php if (!empty($comment->activeChilds)) { ?>
-                        <?php foreach ($comment->activeChilds as $reply) { ?>
+                    <?php if (!empty($comment->childs)) { ?>
+                        <?php foreach ($comment->childs as $reply) { ?>
                             <div class="qv-comment-reply">
                                 <div class="qv-reply-rating"><?= rand(0, 100); ?></div>
                                 <div class="qv-reply-rate">

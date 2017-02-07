@@ -8,13 +8,15 @@ use yii\db\ActiveQuery;
 class CommentsQuery extends ActiveQuery
 {
 
+    private $_alias;
+
     /**
      * @param $itemType
      * @return $this
      */
     public function itemType($itemType)
     {
-        $this->andFilterWhere(['item_type' => $itemType]);
+        $this->andFilterWhere([$this->getPrefix() . 'item_type' => $itemType]);
         return $this;
     }
 
@@ -24,7 +26,7 @@ class CommentsQuery extends ActiveQuery
      */
     public function itemId($itemId)
     {
-        $this->andFilterWhere(['item_id' => $itemId]);
+        $this->andFilterWhere([$this->getPrefix() . 'item_id' => $itemId]);
         return $this;
     }
 
@@ -33,13 +35,28 @@ class CommentsQuery extends ActiveQuery
      */
     public function parentsOnly()
     {
-        $this->andWhere(['parent_id' => null]);
+        $this->andWhere([$this->getPrefix() . 'parent_id' => null]);
         return $this;
     }
 
     public function activeOnly()
     {
-        $this->andWhere(['status' => Comment::STATUS_ACTIVE]);
+        $this->andWhere([$this->getPrefix() . 'status' => Comment::STATUS_ACTIVE]);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    private function getPrefix()
+    {
+        return $this->_alias ? $this->_alias . '.' : '';
+    }
+
+    public function setAlias($alias)
+    {
+        $this->alias($alias);
+        $this->_alias = $alias;
         return $this;
     }
 }
