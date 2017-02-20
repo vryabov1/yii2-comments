@@ -98,6 +98,20 @@
     color: #20A020;
 }
 
+.qv-rate-up.active {
+    border: 2px solid #20A020;
+    border-radius: 6px;
+    background-color: #20A020;
+    color: white;
+}
+
+.qv-rate-down.active {
+    border: 2px solid #CA4343;
+    border-radius: 6px;
+    background-color: #CA4343;
+    color: white;
+}
+
 .qv-reply-rate-btn {
     padding: 4px;
     cursor: pointer;

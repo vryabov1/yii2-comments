@@ -4,6 +4,7 @@ use qvalent\comments\models\Comment;
 use kartik\icons\Icon;
 use qvalent\comments\widgets\CommentsForm;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /** @var $comments Comment[] */
@@ -14,19 +15,20 @@ use yii\widgets\ActiveForm;
 /** @var $canCreate bool */
 
 CommentsAsset::register($this);
+$returnUrl = Yii::$app->request->getUrl();
 ?>
 
 <div class="qv-comments">
     <?php foreach ($comments as $comment) { ?>
         <div class="qv-root-comment-block">
             <div class="qv-root-rate-block">
-                <a class="qv-root-rate-btn qv-rate-up" href="javascript:void(0)">
+                <a class="qv-root-rate-btn qv-rate-up" data-method="post" href="<?= Url::to(['rate/rate/up', 'itemType' => Comment::RATE_ITEM_TYPE, 'itemId' => $comment->id, 'returnUrl' => $returnUrl])?>">
                     <?= Icon::show('triangle-top', [], Icon::BSG); ?>
                 </a>
                 <div class="qv-root-current-rating">
                     <?= rand(0, 100); ?>
                 </div>
-                <a class="qv-root-rate-btn qv-rate-down" href="javascript:void(0)">
+                <a class="qv-root-rate-btn qv-rate-down" data-method="post" href="<?= Url::to(['rate/rate/down', 'itemType' => Comment::RATE_ITEM_TYPE, 'itemId' => $comment->id, 'returnUrl' => $returnUrl])?>">
                     <?= Icon::show('triangle-bottom', [], Icon::BSG); ?>
                 </a>
             </div>
@@ -50,8 +52,8 @@ CommentsAsset::register($this);
                             <div class="qv-comment-reply">
                                 <div class="qv-reply-rating"><?= rand(0, 100); ?></div>
                                 <div class="qv-reply-rate">
-                                    <a class="qv-reply-rate-btn qv-rate-down" href="javascript:void(0)">-</a>
-                                    <a class="qv-reply-rate-btn qv-rate-up" href="javascript:void(0)">+</a>
+                                    <a class="qv-reply-rate-btn qv-rate-down" data-method="post" href="<?= Url::to(['rate/rate/down', 'itemType' => Comment::RATE_ITEM_TYPE, 'itemId' => $reply->id, 'returnUrl' => $returnUrl])?>">-</a>
+                                    <a class="qv-reply-rate-btn qv-rate-up" data-method="post" href="<?= Url::to(['rate/rate/up', 'itemType' => Comment::RATE_ITEM_TYPE, 'itemId' => $reply->id, 'returnUrl' => $returnUrl])?>">+</a>
                                 </div>
                                 <div class="qv-reply-text">
                                     <?= Yii::$app->formatter->format($reply->text, ['ntext', 'html']) ?><span

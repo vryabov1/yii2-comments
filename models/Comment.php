@@ -32,6 +32,8 @@ class Comment extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
 
+    const RATE_ITEM_TYPE = 1;
+
     /**
      * @return array
      */
