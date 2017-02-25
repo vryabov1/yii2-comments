@@ -6,7 +6,7 @@ use yii\web\AssetBundle;
 
 class CommentsAsset extends AssetBundle
 {
-    public $sourcePath = __DIR__ . DIRECTORY_SEPARATOR . 'resources';
+    public $sourcePath = '@qvalent/comments/assets/resources';
     public $css = [
         'style.css'
     ];
