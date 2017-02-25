@@ -91,25 +91,19 @@
 }
 
 .qv-rate-down, .qv-rate-down:hover, .qv-rate-down:active, .qv-rate-down:focus {
-    color: #CA4343;
+    color: #bfbfbf;
 }
 
 .qv-rate-up, .qv-rate-up:hover, .qv-rate-up:active, .qv-rate-up:focus {
-    color: #20A020;
+    color: #bfbfbf;
 }
 
 .qv-rate-up.active {
-    border: 2px solid #20A020;
-    border-radius: 6px;
-    background-color: #20A020;
-    color: white;
+    color: #20A020;
 }
 
 .qv-rate-down.active {
-    border: 2px solid #CA4343;
-    border-radius: 6px;
-    background-color: #CA4343;
-    color: white;
+    color: #CA4343;
 }
 
 .qv-reply-rate-btn {

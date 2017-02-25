@@ -3,8 +3,10 @@
 namespace qvalent\comments\models;
 
 use qvalent\comments\models\queries\CommentsQuery;
+use qvalent\rate\models\Rate;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 use yii\web\IdentityInterface;
 
 /**
@@ -25,6 +27,7 @@ use yii\web\IdentityInterface;
  * @property Comment $parent
  * @property IdentityInterface $user
  * @property Comment[] $childs
+ * @property Rate[] rates
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -119,5 +122,15 @@ class Comment extends \yii\db\ActiveRecord
     public function getIsDisabled()
     {
         return $this->status == static::STATUS_INACTIVE;
+    }
+
+    public function getRates()
+    {
+        return $this->hasMany(Rate::className(), ['item_id' => 'id'])->andOnCondition(['item_type' => self::RATE_ITEM_TYPE]);
+    }
+
+    public function getRatesSum()
+    {
+        return $this->getRates()->select(['sum' => new Expression('SUM(value)')])->scalar();
     }
 }

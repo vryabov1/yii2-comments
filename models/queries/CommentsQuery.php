@@ -39,6 +39,9 @@ class CommentsQuery extends ActiveQuery
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function activeOnly()
     {
         $this->andWhere([$this->getPrefix() . 'status' => Comment::STATUS_ACTIVE]);
@@ -53,6 +56,10 @@ class CommentsQuery extends ActiveQuery
         return $this->_alias ? $this->_alias . '.' : '';
     }
 
+    /**
+     * @param $alias
+     * @return $this
+     */
     public function setAlias($alias)
     {
         $this->alias($alias);
