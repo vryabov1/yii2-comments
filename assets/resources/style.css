@@ -91,11 +91,19 @@
 }
 
 .qv-rate-down, .qv-rate-down:hover, .qv-rate-down:active, .qv-rate-down:focus {
-    color: #CA4343;
+    color: #bfbfbf;
 }
 
 .qv-rate-up, .qv-rate-up:hover, .qv-rate-up:active, .qv-rate-up:focus {
+    color: #bfbfbf;
+}
+
+.qv-rate-up.active {
     color: #20A020;
+}
+
+.qv-rate-down.active {
+    color: #CA4343;
 }
 
 .qv-reply-rate-btn {

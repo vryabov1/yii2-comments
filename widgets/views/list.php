@@ -4,6 +4,7 @@ use qvalent\comments\models\Comment;
 use kartik\icons\Icon;
 use qvalent\comments\widgets\CommentsForm;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /** @var $comments Comment[] */
@@ -12,23 +13,48 @@ use yii\widgets\ActiveForm;
 /** @var $itemId int */
 /** @var $itemType int */
 /** @var $canCreate bool */
+/** @var $getRateSum Closure */
+/** @var $getUserVote Closure */
 
 CommentsAsset::register($this);
+$returnUrl = Yii::$app->request->getUrl();
 ?>
 
 <div class="qv-comments">
     <?php foreach ($comments as $comment) { ?>
         <div class="qv-root-comment-block">
             <div class="qv-root-rate-block">
-                <a class="qv-root-rate-btn qv-rate-up" href="javascript:void(0)">
-                    <?= Icon::show('triangle-top', [], Icon::BSG); ?>
-                </a>
+                <?= Html::a(
+                    Icon::show('triangle-top', [], Icon::BSG),
+                    Url::to([
+                        $getUserVote($comment) == 1 ? 'rate/rate/reset' : 'rate/rate/up',
+                        'itemType' => Comment::RATE_ITEM_TYPE,
+                        'itemId' => $comment->id,
+                        'returnUrl' => $returnUrl
+                    ]),
+                    [
+                        'class' => ['qv-root-rate-btn', 'qv-rate-up', $getUserVote($comment) == 1 ? 'active' : ''],
+                        'data-method' => 'post',
+                        'title' => $getUserVote($comment) == 1 ? 'Вы плюсанули, сбросить?' : 'Плюсануть',
+                    ]
+                ) ?>
                 <div class="qv-root-current-rating">
-                    <?= rand(0, 100); ?>
+                    <?= $getRateSum($comment); ?>
                 </div>
-                <a class="qv-root-rate-btn qv-rate-down" href="javascript:void(0)">
-                    <?= Icon::show('triangle-bottom', [], Icon::BSG); ?>
-                </a>
+                <?= Html::a(
+                    Icon::show('triangle-bottom', [], Icon::BSG),
+                    Url::to([
+                        $getUserVote($comment) == -1 ? 'rate/rate/reset' : 'rate/rate/down',
+                        'itemType' => Comment::RATE_ITEM_TYPE,
+                        'itemId' => $comment->id,
+                        'returnUrl' => $returnUrl
+                    ]),
+                    [
+                        'class' => ['qv-root-rate-btn', 'qv-rate-down', $getUserVote($comment) == -1 ? 'active' : ''],
+                        'data-method' => 'post',
+                        'title' => $getUserVote($comment) == -1 ? 'Вы минусанули, сбросить?' : 'Минусануть',
+                    ]
+                ) ?>
             </div>
             <div class="qv-root-comment-block-right">
                 <div class="qv-root-comment">
@@ -40,7 +66,7 @@ CommentsAsset::register($this);
                             <?= date('d.m.Y H:i', $comment->created_at); ?>
                         </div>
                         <div class="qv-root-comment-user">
-                            <?= call_user_func($userShowCallback, $comment->user); ?> [<?= rand(0, 100); ?>]
+                            <?= call_user_func($userShowCallback, $comment->user); ?>
                         </div>
                     </div>
                 </div>
@@ -48,15 +74,41 @@ CommentsAsset::register($this);
                     <?php if (!empty($comment->childs)) { ?>
                         <?php foreach ($comment->childs as $reply) { ?>
                             <div class="qv-comment-reply">
-                                <div class="qv-reply-rating"><?= rand(0, 100); ?></div>
+                                <div class="qv-reply-rating"><?= $getRateSum($reply, true); ?></div>
                                 <div class="qv-reply-rate">
-                                    <a class="qv-reply-rate-btn qv-rate-down" href="javascript:void(0)">-</a>
-                                    <a class="qv-reply-rate-btn qv-rate-up" href="javascript:void(0)">+</a>
+                                    <?= Html::a(
+                                        '-',
+                                        Url::to([
+                                            $getUserVote($reply) == -1 ? 'rate/rate/reset' : 'rate/rate/down',
+                                            'itemType' => Comment::RATE_ITEM_TYPE,
+                                            'itemId' => $reply->id,
+                                            'returnUrl' => $returnUrl
+                                        ]),
+                                        [
+                                            'class' => ['qv-reply-rate-btn', 'qv-rate-down', $getUserVote($reply) == -1 ? 'active' : ''],
+                                            'data-method' => 'post',
+                                            'title' => $getUserVote($reply) == -1 ? 'Вы минусанули, сбросить?' : 'Минусануть',
+                                        ]
+                                    ) ?>
+                                    <?= Html::a(
+                                        '+',
+                                        Url::to([
+                                            $getUserVote($reply) == 1 ? 'rate/rate/reset' : 'rate/rate/up',
+                                            'itemType' => Comment::RATE_ITEM_TYPE,
+                                            'itemId' => $reply->id,
+                                            'returnUrl' => $returnUrl
+                                        ]),
+                                        [
+                                            'class' => ['qv-reply-rate-btn', 'qv-rate-up', $getUserVote($reply) == 1 ? 'active' : ''],
+                                            'data-method' => 'post',
+                                            'title' => $getUserVote($reply) == 1 ? 'Вы плюсанули, сбросить?' : 'Плюсануть',
+                                        ]
+                                    ) ?>
                                 </div>
                                 <div class="qv-reply-text">
                                     <?= Yii::$app->formatter->format($reply->text, ['ntext', 'html']) ?><span
-                                            class="qv-reply-info"> – <?= call_user_func($userShowCallback, $reply->user); ?>
-                                        [<?= rand(0, 100); ?>], <?= date('d.m.Y H:i', $reply->created_at); ?></span>
+                                            class="qv-reply-info"> – <?= call_user_func($userShowCallback, $reply->user); ?>,
+                                        <?= date('d.m.Y H:i', $reply->created_at); ?></span>
                                 </div>
                             </div>
                         <?php } ?>
