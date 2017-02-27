@@ -129,3 +129,7 @@ $returnUrl = Yii::$app->request->getUrl();
     <?= CommentsForm::widget(['isRoot' => true, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
     <?= CommentsForm::widget(['isRoot' => false, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
 <?php } ?>
+
+<div class="alert alert-warning">
+    Комментировать могут только авторизованные пользователи.
+</div>
