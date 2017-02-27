@@ -24,7 +24,7 @@ $returnUrl = Yii::$app->request->getUrl();
     <?php foreach ($comments as $comment) { ?>
         <div class="qv-root-comment-block">
             <div class="qv-root-rate-block">
-                <?= Html::a(
+                <?= Yii::$app->user->id == $comment->user_id ? '' : Html::a(
                     Icon::show('triangle-top', [], Icon::BSG),
                     Url::to([
                         $getUserVote($comment) == 1 ? 'rate/rate/reset' : 'rate/rate/up',
@@ -41,7 +41,7 @@ $returnUrl = Yii::$app->request->getUrl();
                 <div class="qv-root-current-rating">
                     <?= $getRateSum($comment); ?>
                 </div>
-                <?= Html::a(
+                <?= Yii::$app->user->id == $comment->user_id ? '' : Html::a(
                     Icon::show('triangle-bottom', [], Icon::BSG),
                     Url::to([
                         $getUserVote($comment) == -1 ? 'rate/rate/reset' : 'rate/rate/down',
@@ -76,7 +76,7 @@ $returnUrl = Yii::$app->request->getUrl();
                             <div class="qv-comment-reply">
                                 <div class="qv-reply-rating"><?= $getRateSum($reply, true); ?></div>
                                 <div class="qv-reply-rate">
-                                    <?= Html::a(
+                                    <?= Yii::$app->user->id == $reply->user_id ? '' : Html::a(
                                         '-',
                                         Url::to([
                                             $getUserVote($reply) == -1 ? 'rate/rate/reset' : 'rate/rate/down',
@@ -90,7 +90,7 @@ $returnUrl = Yii::$app->request->getUrl();
                                             'title' => $getUserVote($reply) == -1 ? 'Вы минусанули, сбросить?' : 'Минусануть',
                                         ]
                                     ) ?>
-                                    <?= Html::a(
+                                    <?= Yii::$app->user->id == $reply->user_id ? '' : Html::a(
                                         '+',
                                         Url::to([
                                             $getUserVote($reply) == 1 ? 'rate/rate/reset' : 'rate/rate/up',
@@ -130,6 +130,9 @@ $returnUrl = Yii::$app->request->getUrl();
     <?= CommentsForm::widget(['isRoot' => false, 'itemType' => $itemType, 'itemId' => $itemId]); ?>
 <?php } ?>
 
+<br>
+<?php if (Yii::$app->user->isGuest) { ?>
 <div class="alert alert-warning">
     Комментировать могут только авторизованные пользователи.
 </div>
+<?php } ?>
